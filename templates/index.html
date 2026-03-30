@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InsightFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="animate-in">
+            <div class="logo">InsightFlow</div>
+            <div class="nav-links">
+                <a href="/dashboard" class="btn-soft">
+                    Analyze Data
+                </a>
+            </div>
+        </nav>
+
+        <section class="hero animate-in">
+            <h1 class="hero-title">
+                Automated Data Insights
+            </h1>
+            <p class="animate-delay-1"
+                style="max-width: 600px; margin-bottom: 3rem; color: #666666;">
+                Upload your CSV and let our automated analysis engine generate professional charts and summaries instantly.
+            </p>
+            <a href="/dashboard" class="btn-soft animate-delay-2"
+                style="border-radius: 20px;">
+                Get Started for Free
+            </a>
+        </section>
+
+        <section class="stats-grid animate-in" style="margin-top: 5vh;">
+            <div class="card">
+                <h3>Auto Insights</h3>
+                <p>Instant statistical summaries and missing value detection.</p>
+            </div>
+            <div class="card">
+                <h3>Visualizations</h3>
+                <p>Beautiful, interactive charts generated automatically from your data.</p>
+            </div>
+            <div class="card">
+                <h3>Export Reports</h3>
+                <p>Professional PDF reports ready for your next presentation.</p>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="card animate-in" style="margin-top: 4rem; text-align: center;">
+            <h2 style="margin-bottom: 0.5rem; color: var(--primary-color);">How It Works</h2>
+            <p style="color: #888; margin-bottom: 2.5rem;">Get from raw data to professional insights in 3 simple steps.
+            </p>
+
+            <div class="stats-grid" style="margin-top: 0;">
+                <div class="card-inset" style="padding: 2.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"><i
+                            class="fa-solid fa-cloud-arrow-up"></i></div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Step 1</h3>
+                    <h4 style="margin-top: 0;">Upload Your File</h4>
+                    <p style="color: #999; font-size: 0.95rem;">Drag & drop your CSV or Excel file into the dashboard.
+                        We support files up to 50MB.</p>
+                </div>
+                <div class="card-inset" style="padding: 2.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"><i
+                            class="fa-solid fa-bolt"></i></div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Step 2</h3>
+                    <h4 style="margin-top: 0;">Auto-Analyze</h4>
+                    <p style="color: #999; font-size: 0.95rem;">Our automated analysis engine scans your data,
+                        identifies key patterns, and generates professional charts and statistical summaries instantly.
+                    </p>
+                </div>
+                <div class="card-inset" style="padding: 2.5rem;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary-color);"><i
+                            class="fa-solid fa-file-export"></i></div>
+                    <h3 style="color: var(--primary-color); margin-bottom: 0.5rem;">Step 3</h3>
+                    <h4 style="margin-top: 0;">Export & Share</h4>
+                    <p style="color: #999; font-size: 0.95rem;">Download a professional PDF report with all your
+                        insights, charts, and data summaries ready for presentations.</p>
+                </div>
+            </div>
+        </section>
+
+        </section>
+
+        <footer>
+            &copy; 2026 InsightFlow | Transforming Raw Data into Actionable Intelligence
+        </footer>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | InsightFlow</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="animate-in">
+            <div class="logo">InsightFlow</div>
+            <div class="nav-links">
+                <a href="/" class="btn-soft"> Home</a>
+            </div>
+        </nav>
+
+        <section class="card animate-in">
+            <h1>Upload Your Data</h1>
+            <p>Select a CSV or Excel file to automatically generate insights.</p>
+
+            <div class="card-inset" style="margin-top: 2rem;">
+                <form id="upload-form">
+                    <div id="drop-zone" class="upload-area">
+                        <input type="file" id="file-input" name="file" accept=".csv, .xlsx" hidden>
+                        <p id="file-name-display">Drag & Drop your file or <span
+                                style="color:var(--primary-color); text-decoration: underline;">Browse</span></p>
+                    </div>
+                    <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem;">
+                        <button type="button" class="btn-soft" id="reupload-btn" style="display: none;">
+                            <i class="fa-solid fa-arrow-rotate-left"></i> Upload New File
+                        </button>
+                        <button type="submit" class="btn-soft btn-primary" id="analyze-btn" disabled>
+                            Analysis File
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <div id="loading" class="card" style="display: none; text-align: center;">
+            <p>Crunching numbers, please wait...</p>
+        </div>
+
+        <section id="results" class="card animate-in" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 2rem;">
+                <h2 style="margin: 0; min-width: 0; overflow-wrap: break-word; word-break: break-all;">Auto Insights for <span id="current-filename" style="color: var(--primary-color);"></span></h2>
+                <div style="display: flex; gap: 1rem; width: auto; flex-shrink: 0;">
+                    <button class="btn-soft" id="export-pdf-btn"><i class="fa-solid fa-file-pdf"></i> Export
+                        Report</button>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="card-inset stat-item">
+                    <div class="stat-value" id="row-count">-</div>
+                    <div class="stat-label">Total Records</div>
+                </div>
+                <div class="card-inset stat-item">
+                    <div class="stat-value" id="col-count">-</div>
+                    <div class="stat-label">Columns</div>
+                </div>
+                <div class="card-inset stat-item">
+                    <div class="stat-value" id="missing-count">-</div>
+                    <div class="stat-label">Missing Values</div>
+                </div>
+            </div>
+
+            <!-- Horizontal Filter Bar -->
+            <div class="filter-bar card-inset animate-in" style="margin-top: 2rem;">
+                <div class="filter-container">
+                    <div class="filter-main-group">
+                        <h3 style="margin: 0; font-size: 1.1rem;"><i class="fa-solid fa-filter"></i> Filters:</h3>
+
+                        <div class="filter-group">
+                            <select id="category-filter" class="btn-soft">
+                                <option value="all">All Categories</option>
+                            </select>
+                        </div>
+
+                        <div class="filter-group" style="position: relative;">
+                            <i class="fa-solid fa-magnifying-glass"
+                                style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #888;"></i>
+                            <input type="text" id="search-filter" class="btn-soft" placeholder="Search data..."
+                                style="padding: 0.6rem 1.2rem 0.6rem 2.8rem; width: 220px;">
+                        </div>
+                    </div>
+
+                    <div class="filter-button-group">
+                        <button class="btn-soft btn-primary" id="apply-filters" style="padding: 0.6rem 1.5rem;">
+                            Apply
+                        </button>
+                        <button class="btn-soft" id="reset-filters" style="padding: 0.6rem 1.5rem;">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Container (Below Filters) -->
+            <div id="charts-container" class="charts-grid">
+                <!-- Charts will be injected here with toggle buttons -->
+            </div>
+        </section>
+
+        <footer>
+            &copy; 2026 InsightFlow | Premium Data Analysis as a Service
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+</body>
+
+</html>

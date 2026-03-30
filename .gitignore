@@ -1,0 +1,27 @@
+# Python bit
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project Data
+uploads/*
+!uploads/.gitkeep
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# VirtualBox
+# ...
+.vscode/
+.idea/
+*.log
