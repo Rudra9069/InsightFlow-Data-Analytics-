@@ -1,7 +1,5 @@
 # InsightFlow - Automated Data Analytics Dashboard
 
-![Dashboard Preview](static/img/preview.png)
-
 InsightFlow is a premium, automated data analysis and visualization system designed to turn raw CSV and Excel data into interactive, actionable insights. Built with a modern **Neumorphic UI**, it focuses on a premium user experience and effortless data exploration.
 
 ## 🚀 Key Features
@@ -37,7 +35,7 @@ InsightFlow is a premium, automated data analysis and visualization system desig
 
 3. **Install dependencies:**
    ```bash
-   pip install -r requirements.txt
+   pip install flask pandas openpyxl fpdf2
    ```
 
 4. **Run the application:**
