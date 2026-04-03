@@ -110,6 +110,51 @@
             <div id="charts-container" class="charts-grid">
                 <!-- Charts will be injected here with toggle buttons -->
             </div>
+
+            <!-- Data Overview Section -->
+            <div id="data-overview" class="animate-in" style="margin-top: 2.5rem;">
+                <h2 style="margin-bottom: 0.5rem; color: var(--primary-color);"><i class="fa-solid fa-table-cells-large"></i> Data Overview</h2>
+                <p style="color: #888; margin-bottom: 1.5rem;">Comprehensive column-by-column breakdown of your dataset.</p>
+
+                <!-- Data Quality Score -->
+                <div class="stats-grid" style="margin-top: 0; margin-bottom: 2rem;">
+                    <div class="card-inset stat-item">
+                        <div class="stat-value" id="quality-score" style="color: var(--primary-color);">-</div>
+                        <div class="stat-label">Data Quality</div>
+                    </div>
+                    <div class="card-inset stat-item">
+                        <div class="stat-value" id="numeric-cols-count">-</div>
+                        <div class="stat-label">Numeric Columns</div>
+                    </div>
+                    <div class="card-inset stat-item">
+                        <div class="stat-value" id="categorical-cols-count">-</div>
+                        <div class="stat-label">Categorical Columns</div>
+                    </div>
+                    <div class="card-inset stat-item">
+                        <div class="stat-value" id="complete-rows">-</div>
+                        <div class="stat-label">Complete Rows %</div>
+                    </div>
+                </div>
+
+                <!-- Column Details Table -->
+                <div class="card-inset" style="overflow-x: auto;">
+                    <table id="overview-table" style="width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.9rem;">
+                        <thead>
+                            <tr style="text-align: left;">
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; white-space: nowrap;">#</th>
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; white-space: nowrap;">Column Name</th>
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; white-space: nowrap;">Data Type</th>
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; white-space: nowrap;">Missing</th>
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; min-width: 150px;">Completeness</th>
+                                <th style="padding: 1rem; color: var(--primary-color); border-bottom: 1px solid #333; white-space: nowrap;">Key Stats</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overview-table-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
         <footer>

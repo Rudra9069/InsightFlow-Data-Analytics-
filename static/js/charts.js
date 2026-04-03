@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsSection.style.display = 'block';
         document.getElementById('current-filename').textContent = data.filename;
         updateStats(data.insights);
+        renderOverview(data.insights);
 
         // Populate Category Filter
         const catFilter = document.getElementById('category-filter');
@@ -130,6 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (filterResult.success) {
                     currentChartData = filterResult.chart_data;
                     updateStats(filterResult.insights);
+                    renderOverview(filterResult.insights);
                     chartsContainer.innerHTML = '';
                     activeCharts.forEach(c => c.destroy());
                     currentChartData.forEach((c, idx) => renderChart(c, idx));
@@ -187,6 +189,104 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('col-count').textContent = insights.columns;
         const totalMissing = Object.values(insights.missing_values).reduce((a, b) => a + b, 0);
         document.getElementById('missing-count').textContent = totalMissing;
+    }
+
+    function renderOverview(insights) {
+        const rows = insights.rows;
+        const cols = insights.col_names;
+        const dtypes = insights.dtypes || {};
+        const missing = insights.missing_values;
+        const stats = insights.stats || {};
+        const catValues = insights.categorical_values || {};
+
+        // Count column types
+        let numericCount = 0, categoricalCount = 0;
+        cols.forEach(col => {
+            const dt = (dtypes[col] || '').toLowerCase();
+            if (dt.includes('int') || dt.includes('float')) numericCount++;
+            else categoricalCount++;
+        });
+
+        // Data quality = overall completeness
+        const totalCells = rows * cols.length;
+        const totalMissing = Object.values(missing).reduce((a, b) => a + b, 0);
+        const quality = totalCells > 0 ? ((totalCells - totalMissing) / totalCells * 100) : 0;
+
+        // Complete rows % (rows with zero missing)
+        const colsMissingArr = Object.values(missing);
+        const maxPossibleMissing = colsMissingArr.reduce((a, b) => a + b, 0);
+        const completeRowsPct = totalCells > 0 ? ((totalCells - maxPossibleMissing) / totalCells * 100) : 0;
+
+        // Update summary cards
+        document.getElementById('quality-score').textContent = quality.toFixed(1) + '%';
+        document.getElementById('numeric-cols-count').textContent = numericCount;
+        document.getElementById('categorical-cols-count').textContent = categoricalCount;
+        document.getElementById('complete-rows').textContent = completeRowsPct.toFixed(1) + '%';
+
+        // Populate table
+        const tbody = document.getElementById('overview-table-body');
+        tbody.innerHTML = '';
+
+        cols.forEach((col, i) => {
+            const dt = dtypes[col] || 'unknown';
+            const missingCount = missing[col] || 0;
+            const completeness = rows > 0 ? ((rows - missingCount) / rows * 100) : 0;
+
+            // Determine friendly type name and icon
+            let typeName, typeIcon, typeColor;
+            const dtLower = dt.toLowerCase();
+            if (dtLower.includes('int')) {
+                typeName = 'Integer'; typeIcon = 'fa-hashtag'; typeColor = '#4a90e2';
+            } else if (dtLower.includes('float')) {
+                typeName = 'Decimal'; typeIcon = 'fa-percentage'; typeColor = '#fcc419';
+            } else if (dtLower.includes('datetime') || dtLower.includes('date')) {
+                typeName = 'Date'; typeIcon = 'fa-calendar'; typeColor = '#ff922b';
+            } else if (dtLower.includes('bool')) {
+                typeName = 'Boolean'; typeIcon = 'fa-toggle-on'; typeColor = '#845ef7';
+            } else {
+                typeName = 'Text'; typeIcon = 'fa-font'; typeColor = '#51cf66';
+            }
+
+            // Key stats
+            let keyStats = '';
+            if (stats[col]) {
+                const s = stats[col];
+                keyStats = `Mean: ${Number(s.mean).toFixed(2)} &nbsp;|&nbsp; Min: ${Number(s.min).toFixed(2)} &nbsp;|&nbsp; Max: ${Number(s.max).toFixed(2)}`;
+            } else if (catValues[col]) {
+                const uniqueCount = catValues[col].length;
+                const topVal = catValues[col][0] || '—';
+                keyStats = `Unique: ${uniqueCount} &nbsp;|&nbsp; Top: ${topVal}`;
+            } else {
+                keyStats = '—';
+            }
+
+            // Completeness bar color
+            let barColor = '#56cd0c';
+            if (completeness < 50) barColor = '#ef4444';
+            else if (completeness < 80) barColor = '#fcc419';
+
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31; color: #666;">${i + 1}</td>
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31; font-weight: 600;">${col}</td>
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31;">
+                    <span style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.25rem 0.7rem; border-radius: 8px; background: ${typeColor}18; color: ${typeColor}; font-size: 0.8rem; font-weight: 500;">
+                        <i class="fa-solid ${typeIcon}"></i> ${typeName}
+                    </span>
+                </td>
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31; color: ${missingCount > 0 ? '#ef4444' : '#56cd0c'}; font-weight: 600;">${missingCount}</td>
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31;">
+                    <div style="display: flex; align-items: center; gap: 0.8rem;">
+                        <div style="flex: 1; height: 6px; background: #2a2c31; border-radius: 3px; overflow: hidden;">
+                            <div style="width: ${completeness}%; height: 100%; background: ${barColor}; border-radius: 3px; transition: width 0.8s ease;"></div>
+                        </div>
+                        <span style="font-size: 0.8rem; color: #888; min-width: 45px; text-align: right;">${completeness.toFixed(0)}%</span>
+                    </div>
+                </td>
+                <td style="padding: 0.8rem 1rem; border-bottom: 1px solid #2a2c31; color: #aaa; font-size: 0.82rem;">${keyStats}</td>
+            `;
+            tbody.appendChild(tr);
+        });
     }
 
     function getChartColors(index, type) {

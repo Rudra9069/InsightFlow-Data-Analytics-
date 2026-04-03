@@ -179,6 +179,12 @@ nav {
     display: inline-block;
 }
 
+.hero p {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: #888;
+}
+
 @keyframes gradient-move {
     0% {
         background-position: 100% center;

@@ -16,6 +16,7 @@ class DataAnalyzer:
             'rows': len(self.df),
             'columns': len(self.df.columns),
             'col_names': list(self.df.columns),
+            'dtypes': {col: str(dtype) for col, dtype in self.df.dtypes.items()},
             'missing_values': self.df.isnull().sum().to_dict(),
             'stats': self.df.describe(include=[np.number]).to_dict() if not self.df.select_dtypes(include=[np.number]).empty else {},
             'categorical_values': categorical_values

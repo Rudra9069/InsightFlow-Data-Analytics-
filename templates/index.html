@@ -28,11 +28,187 @@
             -webkit-background-clip: text;
             background-clip: text;
         }
+
+        /* ===== SPLASH SCREEN ===== */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 99999;
+            background: #1e1f23;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #splash-screen.splash-hidden {
+            opacity: 0;
+            transform: scale(1.05);
+            pointer-events: none;
+        }
+
+        /* Particle canvas behind everything */
+        #splash-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+
+        /* Logo container */
+        .splash-logo-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Icon / Symbol */
+        .splash-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: splash-icon-enter 1s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
+            transform: scale(0.5) rotateZ(-10deg);
+        }
+
+        .splash-icon svg {
+            width: 72px;
+            height: 72px;
+            filter: drop-shadow(0 0 20px rgba(86, 205, 12, 0.3));
+        }
+
+        @keyframes splash-icon-enter {
+            to {
+                opacity: 1;
+                transform: scale(1) rotateZ(0deg);
+            }
+        }
+
+        /* Brand text */
+        .splash-brand {
+            font-family: 'Bropella', 'Plus Jakarta Sans', sans-serif;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            background: linear-gradient(90deg, #99f37e, #40e617, #038707, #99f37e);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: splash-brand-enter 1s 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards,
+                gradient-move 3s linear infinite;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes splash-brand-enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Tagline */
+        .splash-tagline {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #666;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            animation: splash-tag-enter 0.8s 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes splash-tag-enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* Hide main content until splash is done */
+        .main-content-hidden {
+            opacity: 0;
+        }
+
+        .main-content-visible {
+            animation: main-reveal 1s 0.3s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes main-reveal {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .splash-icon svg {
+                width: 56px;
+                height: 56px;
+            }
+
+            .splash-brand {
+                font-size: 2.5rem;
+                letter-spacing: 3px;
+            }
+
+            .splash-tagline {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
+    <!-- ===== SPLASH SCREEN ===== -->
+    <div id="splash-screen">
+        <canvas id="splash-particles"></canvas>
+
+        <div class="splash-logo-container">
+            <div class="splash-icon">
+                <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 36V28" stroke="#56cd0c" stroke-width="3" stroke-linecap="round" />
+                    <path d="M16 36V22" stroke="#40e617" stroke-width="3" stroke-linecap="round" />
+                    <path d="M24 36V16" stroke="#56cd0c" stroke-width="3" stroke-linecap="round" />
+                    <path d="M32 36V20" stroke="#40e617" stroke-width="3" stroke-linecap="round" />
+                    <path d="M40 36V12" stroke="#56cd0c" stroke-width="3" stroke-linecap="round" />
+                    <path d="M6 14L16 18L26 10L36 14L42 8" stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round" fill="none" />
+                    <circle cx="42" cy="8" r="3" fill="#56cd0c">
+                        <animate attributeName="r" values="3;4.5;3" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite" />
+                    </circle>
+                    <defs>
+                        <linearGradient id="grad" x1="6" y1="14" x2="42" y2="8">
+                            <stop offset="0%" stop-color="#99f37e" />
+                            <stop offset="100%" stop-color="#038707" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <div class="splash-brand">InsightFlow</div>
+            <div class="splash-tagline">Data Intelligence Platform</div>
+        </div>
+
+    </div>
+
+    <div class="container main-content-hidden" id="main-content">
         <nav class="animate-in">
             <div class="logo">InsightFlow</div>
             <div class="nav-links">
@@ -46,12 +222,11 @@
             <h1 class="hero-title">
                 Automated Data Insights
             </h1>
-            <p class="animate-delay-1"
-                style="max-width: 600px; margin-bottom: 3rem; color: #666666;">
-                Upload your CSV and let our automated analysis engine generate professional charts and summaries instantly.
+            <p class="animate-delay-1" style="max-width: 600px; margin-bottom: 3rem; color: #666666;">
+                Upload your CSV and let our automated analysis engine generate professional charts and summaries
+                instantly.
             </p>
-            <a href="/dashboard" class="btn-soft animate-delay-2"
-                style="border-radius: 20px;">
+            <a href="/dashboard" class="btn-soft animate-delay-2" style="border-radius: 20px;">
                 Get Started for Free
             </a>
         </section>
@@ -112,6 +287,74 @@
             &copy; 2026 InsightFlow | Transforming Raw Data into Actionable Intelligence
         </footer>
     </div>
+
+    <script>
+        // ===== PARTICLE SYSTEM =====
+        (function () {
+            const canvas = document.getElementById('splash-particles');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let animFrame;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                    this.y = Math.random() * canvas.height;
+                }
+                reset() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 10;
+                    this.size = Math.random() * 2.5 + 0.5;
+                    this.speedY = -(Math.random() * 1.2 + 0.3);
+                    this.speedX = (Math.random() - 0.5) * 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.1;
+                    this.hue = 100 + Math.random() * 30;
+                }
+                update() {
+                    this.y += this.speedY;
+                    this.x += this.speedX;
+                    this.opacity -= 0.002;
+                    if (this.y < -10 || this.opacity <= 0) this.reset();
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${this.hue}, 80%, 55%, ${this.opacity})`;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => { p.update(); p.draw(); });
+                animFrame = requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Splash exit
+            setTimeout(function () {
+                const splash = document.getElementById('splash-screen');
+                const main = document.getElementById('main-content');
+                splash.classList.add('splash-hidden');
+                main.classList.remove('main-content-hidden');
+                main.classList.add('main-content-visible');
+                setTimeout(function () {
+                    splash.style.display = 'none';
+                    cancelAnimationFrame(animFrame);
+                }, 900);
+            }, 2500);
+        })();
+    </script>
 </body>
 
 </html>
