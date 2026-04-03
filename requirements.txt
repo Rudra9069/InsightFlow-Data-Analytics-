@@ -1,0 +1,10 @@
+Flask
+Pandas
+Matplotlib
+mysql-connector-python
+Flask-SQLAlchemy
+fpdf2
+openpyxl
+flask-login
+numpy
+gunicorn
