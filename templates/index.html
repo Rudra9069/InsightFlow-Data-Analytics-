@@ -110,17 +110,10 @@
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: splash-brand-enter 1s 0.3s cubic-bezier(0.23, 1, 0.32, 1) forwards,
-                gradient-move 3s linear infinite;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        @keyframes splash-brand-enter {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            animation: gradient-move 3s linear infinite;
+            min-height: 4.5rem;
+            display: flex;
+            align-items: center;
         }
 
         /* Tagline */
@@ -130,7 +123,7 @@
             color: #666;
             letter-spacing: 3px;
             text-transform: uppercase;
-            animation: splash-tag-enter 0.8s 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            animation: splash-tag-enter 0.8s 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             opacity: 0;
             transform: translateY(10px);
         }
@@ -168,6 +161,7 @@
             .splash-brand {
                 font-size: 2.5rem;
                 letter-spacing: 3px;
+                min-height: 3.5rem;
             }
 
             .splash-tagline {
@@ -214,7 +208,7 @@
                     </defs>
                 </svg>
             </div>
-            <div class="splash-brand">InsightFlow</div>
+            <div class="splash-brand" id="splash-brand-text"></div>
             <div class="splash-tagline">Data Intelligence Platform</div>
         </div>
 
@@ -352,6 +346,21 @@
                 animFrame = requestAnimationFrame(animate);
             }
             animate();
+
+            // Typewriter effect for brand
+            const brandText = "InsightFlow";
+            const brandEl = document.getElementById('splash-brand-text');
+            setTimeout(() => {
+                let charIndex = 0;
+                const typingObj = setInterval(() => {
+                    if (charIndex < brandText.length) {
+                        brandEl.innerHTML += brandText.charAt(charIndex);
+                        charIndex++;
+                    } else {
+                        clearInterval(typingObj);
+                    }
+                }, 40); // Speed of character typing
+            }, 300);
 
             // Splash exit
             setTimeout(function () {
