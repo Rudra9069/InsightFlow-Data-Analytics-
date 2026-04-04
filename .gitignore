@@ -27,5 +27,4 @@ build/
 *.log
 
 # Exclude from remote
-requirements.txt
 sample_analytics.xlsx
