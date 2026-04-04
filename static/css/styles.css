@@ -351,6 +351,7 @@ footer {
     .container {
         padding: 1.5rem;
     }
+
     .charts-grid {
         gap: 1.5rem;
     }
@@ -359,10 +360,11 @@ footer {
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
+        overflow-x: hidden;
     }
 
     .hero-title {
-        font-size: 3rem;
+        font-size: 1.8rem;
         text-align: center;
     }
 
@@ -374,9 +376,12 @@ footer {
     }
 
     .nav-links {
-        width: 100%;
         justify-content: center;
         gap: 0.8rem;
+    }
+
+    .nav-links .btn-soft {
+        width: auto;
     }
 
     .logo {
@@ -390,8 +395,20 @@ footer {
         border-radius: 20px;
     }
 
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    h2 {
+        font-size: 1.3rem;
+    }
+
+    .card > p {
+        font-size: 0.9rem;
+    }
+
     .card-inset {
-        padding: 0.8rem; /* Further reduced for mobile chart space */
+        padding: 1rem;
     }
 
     .hero p {
@@ -401,6 +418,8 @@ footer {
 
     .charts-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
     }
 
     .stats-grid {
@@ -412,8 +431,12 @@ footer {
     .btn-soft {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
-        width: 100%;
         text-align: center;
+    }
+
+    #reupload-btn,
+    #analyze-btn {
+        flex: 1;
     }
 
     /* Filter mobile stacking */
@@ -436,10 +459,20 @@ footer {
 
     .chart-controls {
         justify-content: center;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
     }
-    
+
+    .chart-card {
+        padding: 0.7rem !important;
+    }
+
+    .chart-card canvas {
+        max-height: 350px;
+        width: 100%;
+    }
+
     .chart-toggle {
+        margin-bottom: 30px;
         width: 32px;
         height: 32px;
     }
@@ -485,7 +518,7 @@ footer {
     }
 
     /* Filter Bar Column Layout */
-    .filter-bar > div {
+    .filter-bar>div {
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 1.2rem !important;
@@ -495,7 +528,7 @@ footer {
         width: 100%;
     }
 
-    .filter-group select, 
+    .filter-group select,
     .filter-group input {
         width: 100% !important;
         min-width: unset !important;

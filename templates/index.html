@@ -29,6 +29,10 @@
             background-clip: text;
         }
 
+        .mobile-break {
+            display: none;
+        }
+
         /* ===== SPLASH SCREEN ===== */
         #splash-screen {
             position: fixed;
@@ -171,6 +175,14 @@
                 letter-spacing: 2px;
             }
 
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .mobile-break {
+                display: inline;
+            }
+
         }
     </style>
 </head>
@@ -220,7 +232,7 @@
 
         <section class="hero animate-in">
             <h1 class="hero-title">
-                Automated Data Insights
+                Automated <br class="mobile-break">Data Insights
             </h1>
             <p class="animate-delay-1" style="max-width: 600px; margin-bottom: 3rem; color: #666666;">
                 Upload your CSV and let our automated analysis engine generate professional charts and summaries
